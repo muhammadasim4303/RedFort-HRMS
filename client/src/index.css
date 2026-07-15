@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Default: Dark Theme */
+  --canvas-bg: #13120D;
+  --card-bg: #1C1B15;
+  --card-border: #2D2C24;
+  --text-main: #ECECE9;
+  --text-muted: #8E8D82;
+  --text-h: #FFFFFF;
+  --glass-shadow: rgba(0, 0, 0, 0.4);
+  --radial-gradient-1: rgba(222, 24, 27, 0.05);
+  --radial-gradient-2: rgba(222, 24, 27, 0.03);
+  --select-arrow-color: %23a1a1aa; /* tailwind gray-400 */
+}
+
+:root.light {
+  /* Light Theme */
+  --canvas-bg: #FAF9F6;
+  --card-bg: #FFFFFF;
+  --card-border: #E5E4DE;
+  --text-main: #2A2925;
+  --text-muted: #6B6960;
+  --text-h: #13120D;
+  --glass-shadow: rgba(0, 0, 0, 0.05);
+  --radial-gradient-1: rgba(222, 24, 27, 0.03);
+  --radial-gradient-2: rgba(222, 24, 27, 0.01);
+  --select-arrow-color: %236b6960; /* custom gray */
+}
+
+@theme {
+  --color-primary-red: #DE181B;
+  --color-primary-red-hover: #B21013;
+  
+  /* Theme-dependent mapped colors */
+  --color-theme-canvas: var(--canvas-bg);
+  --color-theme-card: var(--card-bg);
+  --color-theme-border: var(--card-border);
+  --color-theme-h: var(--text-h);
+  --color-theme-body: var(--text-main);
+  --color-theme-muted: var(--text-muted);
+  
+  /* Functional Colors */
+  --color-success-green: #10B981;
+  --color-success-bg: rgba(16, 185, 129, 0.1);
+  --color-success-border: rgba(16, 185, 129, 0.2);
+  
+  --color-warning-yellow: #F59E0B;
+  --color-warning-bg: rgba(245, 158, 11, 0.1);
+  --color-warning-border: rgba(245, 158, 11, 0.2);
+  
+  --color-danger-rose: #EF4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.1);
+  --color-danger-border: rgba(239, 68, 68, 0.2);
+  
+  --color-info-blue: #3B82F6;
+  --color-info-bg: rgba(59, 130, 246, 0.1);
+  --color-info-border: rgba(59, 130, 246, 0.2);
+
+  --font-sans: "Plus Jakarta Sans", "Outfit", system-ui, -apple-system, sans-serif;
+  --font-display: "Outfit", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-theme-canvas text-theme-body font-sans antialiased selection:bg-primary-red selection:text-white transition-colors duration-300;
+    background-image: 
+      radial-gradient(circle at 10% 20%, var(--radial-gradient-1) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, var(--radial-gradient-2) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+
+  /* Custom Scrollbar for sleek theme-adapted look */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-theme-canvas;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-theme-border rounded-full hover:bg-primary-red transition-all;
+  }
+}
+
+/* Glassmorphism utility classes */
+.glass-panel {
+  @apply bg-theme-card/75 backdrop-blur-xl border border-theme-border/50 shadow-2xl transition-colors duration-300 rounded-2xl;
+  box-shadow: 0 25px 50px -12px var(--glass-shadow);
+}
+
+.glass-panel-hover {
+  @apply transition-all duration-300 hover:border-primary-red/30 hover:shadow-primary-red/5;
+}
+
+.glass-input {
+  @apply w-full bg-theme-canvas/50 border border-theme-border rounded-xl py-3 text-theme-h placeholder-theme-muted/70 focus:outline-none focus:border-primary-red focus:ring-1 focus:ring-primary-red/30 transition-all duration-200;
+}
+
+.glass-select {
+  @apply w-full bg-theme-canvas/50 border border-theme-border rounded-xl py-3 pr-10 text-sm text-theme-h focus:outline-none focus:border-primary-red focus:ring-1 focus:ring-primary-red/30 transition-all duration-200 cursor-pointer appearance-none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%238E8D82' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-size: 1.25rem 1.25rem;
+  background-repeat: no-repeat;
+}
+
+/* Redefine Arrow color dynamically in light mode */
+:root.light .glass-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B6960' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+}
+
+.glass-select option {
+  background-color: var(--card-bg);
+  color: var(--text-main);
+}
+
+/* Pulse animation for active check-in */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Page transit / entry animations */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Safe Area Insets for iOS & PWA standalone display */
+.safe-padding-bottom {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+}
